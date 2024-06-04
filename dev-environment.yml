@@ -1,0 +1,10 @@
+name: geeft
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - black
+  - build
+  - geemap
+  - gh
+prefix: /home/hammy97/miniconda3/envs/geeft
