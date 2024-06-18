@@ -7,4 +7,8 @@ dependencies:
   - build
   - geemap
   - gh
+  - ruff
+  - pip
+  - pip:
+    - -e .
 prefix: /home/hammy97/miniconda3/envs/geeft
