@@ -48,8 +48,8 @@ def _compute_coefficients(trend: ee.Image, indpendents: list[str]) -> ee.Image:
     return trend.select("coefficients").arrayFlatten([indpendents, ["coeff"]])
 
 
-def _add_coef(coef: ee.Image) -> Callable:
-    return lambda x: x.addBands(coef).select(".*coeff|NDVI")
+def _add_coef(coef: ee.Image, dependent: str) -> Callable:
+    return lambda x: x.addBands(coef).select(f".*coeff|{dependent}")
 
 
 def _add_phase(mode: int) -> Callable:
@@ -80,7 +80,7 @@ def compute(dataset: ee.ImageCollection, dependent: str, modes: int = 3):
     trend = _compute_trend(dataset, dependent, independents)
     coefficients = _compute_coefficients(trend, independents)
     
-    dataset = dataset.map(_add_coef(coefficients))
+    dataset = dataset.map(_add_coef(coefficients, dependent))
     
     for mode in frequencies:
         dataset = dataset.map(_add_phase(mode)).map(_add_amplitude(mode))
